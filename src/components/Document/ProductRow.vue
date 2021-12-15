@@ -15,7 +15,6 @@ export default {
   props: ["id", 'name', 'quantity', 'price', 'discount'],
 
   created: function () {
-    this.updateAmount();
     console.log('created');
   },
   methods: {
