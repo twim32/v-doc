@@ -7,8 +7,8 @@
       <span v-else>{{data.quantity}}</span>
     </td>
     <td>
-      <input type="number" v-if="is_editable" name="original_price" v-model="data.original_price" readonly >
-      <span v-else>{{data.original_price}}</span>
+      <!-- <input type="number" v-if="is_editable" name="original_price" v-model="data.original_price" readonly > -->
+      <span>{{data.original_price}}</span>
     </td>
     <td>
       <input type="number" v-if="is_editable" name="price" v-model="data.price" @change="calcDiscount">
@@ -19,8 +19,8 @@
       <span v-else>{{data.discount}}</span>
     </td>
     <td>
-      <input type="number" v-if="is_editable" name="amount" v-model="data.amount" readonly >
-      <span v-else>{{data.amount}}</span>
+      <!-- <input type="number" v-if="is_editable" name="amount" v-model="data.amount" readonly > -->
+      <span>{{data.amount}}</span>
     </td>
     <td>
       <button @click="toggle"><span v-if="is_editable">Save</span><span v-else>Edit</span></button>
@@ -32,7 +32,6 @@
 <script>
 export default {
   name: "ProductRow",
-    // props: ['data'],
     props: ['data'],
     data: function() {
       return {
@@ -46,12 +45,12 @@ export default {
   },
   methods: {
     onChange : function() {
-      this.calcAmount();
+      // this.calcAmount();
 
       // this.$emit('updated:amount');
     },
     calcPrice: function() {
-      this.data.price = parseFloat((this.data.original_price / 100 * this.data.discount).toFixed(2),2);
+      this.data.price = (this.data.original_price - (this.data.original_price / 100 * this.data.discount)).toFixed(2);
       this.calcAmount();
     },
     calcAmount: function() {
@@ -71,15 +70,7 @@ export default {
       this.$emit('item__removed', this.data);
     }
   },
-  watch: {
-  },
-  computed: {
-    // _price: {
-    //   set: function(value) {
-    //     this.data.price = 333 * value
-    //   }
-    // },
-  },
-
+  watch: {},
+  computed: {},
 };
 </script>
