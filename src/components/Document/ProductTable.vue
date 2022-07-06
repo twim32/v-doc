@@ -1,6 +1,11 @@
 <template>
+ 
   <div id="product-table">
-    <table border="1" width="100%">
+ <form action="#" @submit="handlerSubmit">
+      <input type="text" />
+      <input type="submit" value="Add to Cart" />
+    </form>
+ <table border="1" width="100%">
       <thead>
         <tr>
           <td>id</td>
@@ -80,6 +85,9 @@ export default {
       this.items.splice(index, 1);
       this.calcTotal();
     },
+    handlerSubmit: function() {
+      this.items.push({ id: 30, name: "fdasfwe", quantity: 1, original_price: 100, price: 100, discount: 0, amount: 100 })
+    }
   },
 
   mounted() {
