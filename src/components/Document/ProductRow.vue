@@ -11,7 +11,7 @@
       <span>{{data.original_price}}</span>
     </td>
     <td>
-      <input type="number" v-if="is_editable" name="price" v-model="data.price" @change="calcDiscount">
+      <input type="number" v-if="is_editable" name="price" v-model="data.price" min="0" :max="data.original_price" @change="calcDiscount">
       <span v-else>{{data.price}}</span>
     </td>
     <td>
@@ -58,7 +58,7 @@ export default {
       this.$emit('item__changed');
     },
     calcDiscount: function() {
-      this.data.discount = parseFloat((this.data.price / this.data.original_price * 100).toFixed(2),2);
+      this.data.discount = 100 - parseFloat((this.data.price / this.data.original_price * 100)).toFixed(2);
       this.calcAmount();
     },
 
