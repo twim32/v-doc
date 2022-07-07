@@ -30,9 +30,7 @@
         <td></td>
         <td></td>
         <td></td>
-        <td>
-          <button type="submit" v-on:click="calcTotal">test</button>
-        </td>
+        <td>ИТОГО:</td>
         <td>{{ total }}</td>
         <td></td>
 
