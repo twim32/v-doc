@@ -1,11 +1,11 @@
 <template>
  
   <div id="product-table">
- <form action="#" @submit="handlerSubmit">
-      <input type="text" />
+    <form @submit.prevent="handlerSubmit">
+      <input type="text" v-model="product"/>
       <input type="submit" value="Add to Cart" />
     </form>
- <table border="1" width="100%">
+ <table>
       <thead>
         <tr>
           <td>id</td>
@@ -54,15 +54,9 @@ export default {
         { id: 4, name: "d", quantity: 40, original_price: 70, price: 70, discount: 10, amount: 0 },
         { id: 5, name: "e", quantity: 50, original_price: 80, price: 80, discount: 10, amount: 0 },
         { id: 6, name: "f", quantity: 60, original_price: 90, price: 90, discount: 10, amount: 0 },
-
-        // { id: 1, name: "a", quantity: 3, price: 4, discount: 0.1},
-        // { id: 2, name: "b", quantity: 3, price: 5, discount: 0.1},
-        // { id: 3, name: "c", quantity: 3, price: 6, discount: 0.1},
-        // { id: 4, name: "d", quantity: 3, price: 7, discount: 0.1},
-        // { id: 5, name: "e", quantity: 3, price: 8, discount: 0.1},
-        // { id: 6, name: "f", quantity: 3, price: 9, discount: 0.1},
       ],
       total: 0,
+      product: '',
     };
   },
   components: {
@@ -77,14 +71,14 @@ export default {
         total += product.amount;
       })
       this.total = total;
-      // this.total = 333;
     },
     remove: function(index) {
       this.items.splice(index, 1);
       this.calcTotal();
     },
     handlerSubmit: function() {
-      this.items.push({ id: 30, name: "fdasfwe", quantity: 1, original_price: 100, price: 100, discount: 0, amount: 100 })
+      this.items.push({ id: 30, name: this.product, quantity: 1, original_price: 100, price: 100, discount: 0, amount: 100 })
+      this.product = '';
     }
   },
 
@@ -93,3 +87,15 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+table { width: 100%; }
+table, td{
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+
+table thead td {
+  text-align: center;
+}
+</style>
