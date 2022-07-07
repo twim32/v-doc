@@ -3,27 +3,26 @@
     <td>{{ data.id }}</td>
     <td>{{ data.name }}</td>
     <td>
-      <input type="number" v-if="is_editable" name="quantity" v-model="data.quantity" @change="calcPrice" min="0.01">
+      <input type="number" v-if="is_editable" name="quantity" v-model="data.quantity" @keyup="calcPrice" min="0.01">
       <span v-else>{{data.quantity}}</span>
     </td>
     <td>
-      <!-- <input type="number" v-if="is_editable" name="original_price" v-model="data.original_price" readonly > -->
       <span>{{data.original_price}}</span>
     </td>
     <td>
-      <input type="number" v-if="is_editable" name="price" v-model="data.price" min="0" :max="data.original_price" @change="calcDiscount">
+      <input type="number" v-if="is_editable" name="price" v-model="data.price" min="0" :max="data.original_price" @keyup="calcDiscount">
       <span v-else>{{data.price}}</span>
     </td>
     <td>
-      <input type="number" v-if="is_editable" name="discount" v-model="data.discount" @change="calcPrice" min="0" max="100">
+      <input type="number" v-if="is_editable" name="discount" v-model="data.discount" @keyup="calcPrice" min="0" max="100">
       <span v-else>{{data.discount}}</span>
     </td>
     <td>
-      <!-- <input type="number" v-if="is_editable" name="amount" v-model="data.amount" readonly > -->
       <span>{{data.amount}}</span>
     </td>
     <td>
-      <button @click="toggle"><span v-if="is_editable">Save</span><span v-else>Edit</span></button>
+      <button @click="save" v-if="is_editable">Save</button>
+      <button @click="edit" v-else>Edit</button>
       <button @click="remove">Remove</button>
     </td>
   </tr>
@@ -44,11 +43,6 @@ export default {
     console.log(this);
   },
   methods: {
-    onChange : function() {
-      // this.calcAmount();
-
-      // this.$emit('updated:amount');
-    },
     calcPrice: function() {
       this.data.price = (this.data.original_price - (this.data.original_price / 100 * this.data.discount)).toFixed(2);
       this.calcAmount();
@@ -61,13 +55,24 @@ export default {
       this.data.discount = 100 - parseFloat((this.data.price / this.data.original_price * 100)).toFixed(2);
       this.calcAmount();
     },
-
-    toggle: function() {
-      this.is_editable = !this.is_editable;
+    edit: function () {
+      this.is_editable = true;
+    },
+    save: function() {
+      if(this.validate()) {
+        this.is_editable = false;
+      }
     },
     remove: function() {
       console.log('removed');
       this.$emit('item__removed', this.data);
+    },
+    validate: function() {
+      let data = this.data;
+      if(data.quantity <= 0) { alert('Неправильное кол-во товара'); return false; }
+      if(data.price < 0) { alert('Некоректная цена'); return false; }
+      if(data.discount < 0 || data.discount > 100) { alert('Некоректная скидка'); return false; }
+      return true;      
     }
   },
   watch: {},
