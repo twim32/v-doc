@@ -1,29 +1,37 @@
 <template>
   <tr style="user-select:none;">
-    <td>{{ data.id }}</td>
+    <td class="id__cell">{{ data.id }}</td>
     <td>{{ data.name }}</td>
-    <td>
-      <input type="number" v-if="is_editable" name="quantity" v-model="data.quantity" @keyup="calcPrice" min="0.01">
+    <td class="numeric__cell">
+      <input type="number" v-if="is_editable" name="quantity" v-model="data.quantity" 
+        @keyup="calcPrice"
+        @change="calcPrice"
+        min="0">
       <span v-else>{{data.quantity}}</span>
     </td>
-    <td>
+    <td class="numeric__cell">
       <span>{{data.original_price}}</span>
     </td>
-    <td>
-      <input type="number" v-if="is_editable" name="price" v-model="data.price" min="0" :max="data.original_price" @keyup="calcDiscount">
+    <td class="numeric__cell">
+      <input type="number" v-if="is_editable" name="price" v-model="data.price" min="0" :max="data.original_price" 
+        @keyup="calcDiscount"
+        @change="calcDiscount">
       <span v-else>{{data.price}}</span>
     </td>
-    <td>
-      <input type="number" v-if="is_editable" name="discount" v-model="data.discount" @keyup="calcPrice" min="0" max="100">
+    <td class="numeric__cell">
+      <input type="number" v-if="is_editable" name="discount" v-model="data.discount" 
+        @keyup="calcPrice"
+        @change="calcPrice"
+        min="0" max="100">
       <span v-else>{{data.discount}}</span>
     </td>
-    <td>
+    <td class="numeric__cell">
       <span>{{data.amount}}</span>
     </td>
-    <td>
-      <button @click="save" v-if="is_editable">Save</button>
-      <button @click="edit" v-else>Edit</button>
-      <button @click="remove">Remove</button>
+    <td class="button__cell">
+      <button @click="save" v-if="is_editable">💾</button>
+      <button @click="edit" v-else>🖊️</button>
+      <button @click="remove">❌</button>
     </td>
   </tr>
 </template>
@@ -79,3 +87,20 @@ export default {
   computed: {},
 };
 </script>
+
+<style scoped>
+td {
+  border-collapse: collapse;
+  border: 1px solid black;
+}
+td.numeric__cell, td.numeric__cell input {
+  text-align: end;
+  width:100px;
+}
+td.button__cell {
+  width:51px;
+}
+td.id__cell {
+  width:30px;
+}
+</style>
